@@ -1,0 +1,4 @@
+spring:
+  name: spring-boot-jpa
+  datasource:
+    driver-class-name: org.postgresql.Driver
