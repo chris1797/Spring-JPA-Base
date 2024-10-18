@@ -5,7 +5,7 @@ Jooq 로 구현되어 있는 회사의 코어 서비스 로직들을 JPA, QueryD
 <br/>
 
 ## 개발 환경
-- Java 21
+- jdk-correto 21
 - Spring Boot 3.2.10
 - JPA-Hibernate
-- Docker-Compose Postgres DB 구성
+- Postgres 14.9 (Docker)
