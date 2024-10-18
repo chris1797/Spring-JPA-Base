@@ -1,6 +1,6 @@
 # Spring-JPA-Base
 
-Jooq 로 구현되어 있는 회사의 코어 서비스 로직들을 JPA, QueryDSL로 변경하는 프로젝트입니다.
+Jooq 로 구현되어 있는 프로젝트들의 코어 서비스 로직들을 클론하여 JPA, QueryDSL로 변경하는 프로젝트입니다.
 
 <br/>
 
