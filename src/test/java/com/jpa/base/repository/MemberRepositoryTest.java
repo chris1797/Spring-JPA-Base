@@ -11,13 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 @RunWith(SpringRunner.class)
+@SpringBootTest
 class MemberRepositoryTest {
 
     @Autowired
     MemberRepository memberRepository;
 
+//    @Rollback(false)
     @Test
     @Transactional
     void save() {
@@ -30,13 +31,12 @@ class MemberRepositoryTest {
 
         // then
         Member findMember = memberRepository.find(savedId);
+
         assertEquals(findMember.getId(), member.getId());
         assertEquals(findMember.getUsername(), member.getUsername());
 
         // 같은 영속성 컨텍스트에서는 id 값이 같으면 같은 인스턴스로 관리되기 때문에 같은 인스턴스로 관리된다.
         assertEquals(findMember, member);
-
-
     }
 
 }
