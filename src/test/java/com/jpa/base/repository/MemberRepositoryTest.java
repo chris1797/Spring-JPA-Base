@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,11 @@ class MemberRepositoryTest {
         Member findMember = memberRepository.find(savedId);
         assertEquals(findMember.getId(), member.getId());
         assertEquals(findMember.getUsername(), member.getUsername());
+
+        // 같은 영속성 컨텍스트에서는 id 값이 같으면 같은 인스턴스로 관리되기 때문에 같은 인스턴스로 관리된다.
         assertEquals(findMember, member);
+
+
     }
 
 }
