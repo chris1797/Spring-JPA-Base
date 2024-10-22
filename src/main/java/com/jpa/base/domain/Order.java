@@ -1,4 +1,4 @@
-package com.jpa.base.entity;
+package com.jpa.base.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,9 +9,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Member {
+public class Order {
 
     @Id @GeneratedValue
     private Long id;
-    private String username;
 }

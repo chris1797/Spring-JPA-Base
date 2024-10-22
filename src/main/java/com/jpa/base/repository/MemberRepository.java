@@ -1,6 +1,6 @@
 package com.jpa.base.repository;
 
-import com.jpa.base.entity.Member;
+import com.jpa.base.domain.Member;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
