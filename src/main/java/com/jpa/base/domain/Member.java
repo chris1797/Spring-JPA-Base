@@ -13,6 +13,7 @@ import java.util.List;
 public class Member {
 
     @Id @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
 
     private String name;
@@ -20,6 +21,6 @@ public class Member {
     @Embedded
     private Address address;
 
-    @OneToMany
+    @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 }
