@@ -4,6 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -17,4 +22,16 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
+
+    private Date date;
+    private LocalDateTime orderDate; // 주문 시간
+
+    private OrderStatus status; // ORDER, CANCEL
 }
