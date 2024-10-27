@@ -5,15 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@DiscriminatorColumn(name = "A")
+@DiscriminatorValue("A")
 @Getter
 @Setter
-public class Album {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "album_id")
-    private Long id;
+public class Album extends Item {
 
     private String artist;
     private String etc;

@@ -5,14 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@DiscriminatorColumn(name = "M")
+@DiscriminatorValue("M")
 @Getter
 @Setter
 public class Movie extends Item {
-
-    @Id @GeneratedValue
-    @Column(name = "movie_id")
-    private Long id;
 
     private String director;
     private String actor;
