@@ -26,11 +26,10 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    private Date date;
     private LocalDateTime orderDate; // 주문 시간
 
     private OrderStatus status; // ORDER, CANCEL
