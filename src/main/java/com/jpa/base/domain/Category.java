@@ -18,6 +18,8 @@ public class Category {
 
     private String name;
 
+    // 다대다 양방향 매핑: 중간 테이블이 필요하다.
+    // 다대다 양방향 매핑은 운영 레벨에서 사용하지 않는 것이 좋다.
     @ManyToMany
     @JoinTable(name = "category_item",
             joinColumns = @JoinColumn(name = "category_id"),
