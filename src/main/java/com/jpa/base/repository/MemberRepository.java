@@ -37,4 +37,10 @@ public class MemberRepository {
                 .getResultList();
     }
 
+    public int getCountByName(String name) {
+        return em.createQuery("select count(m) from Member m where m.name = :name", Long.class)
+                .setParameter("name", name)
+                .getSingleResult().intValue();
+    }
+
 }
