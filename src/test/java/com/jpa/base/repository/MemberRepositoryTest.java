@@ -30,7 +30,7 @@ class MemberRepositoryTest {
         Long savedId = memberRepository.save(member);
 
         // then
-        Member findMember = memberRepository.find(savedId);
+        Member findMember = memberRepository.findOne(savedId);
 
         assertEquals(findMember.getId(), member.getId());
         assertEquals(findMember.getName(), member.getName());
@@ -50,7 +50,7 @@ class MemberRepositoryTest {
         Long savedId = memberRepository.save(member);
 
         // then
-        Member findMember = memberRepository.find(savedId);
+        Member findMember = memberRepository.findOne(savedId);
         findMember.setName("memberB");
 
         // 변경 감지(Dirty Checking)으로 인해 update 쿼리가 자동으로 날아간다.
@@ -68,12 +68,12 @@ class MemberRepositoryTest {
         Long savedId = memberRepository.save(member);
 
         // then
-        Member findMember = memberRepository.find(savedId);
+        Member findMember = memberRepository.findOne(savedId);
         System.out.println("Before findMember = " + findMember.getName());
         // 변경 감지(Dirty Checking)으로 인해 update 쿼리가 자동으로 날아간다.
         findMember.setName("memberB");
 
-        Member findMember2 = memberRepository.find(savedId);
+        Member findMember2 = memberRepository.findOne(savedId);
         System.out.println("After findMember = " + findMember2.getName());
 
         // 변경 감지(Dirty Checking)으로 인해 update 쿼리가 자동으로 날아간다.
