@@ -3,19 +3,21 @@ package com.jpa.base.repository;
 import com.jpa.base.domain.Member;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class MemberRepository {
 
     /**
-     * JPA 표준 스펙에 의해 EntityManager를 주입받을 수 있다.
+     * @PersistenceContext : JPA 표준 스펙에 의해 EntityManager를 주입받을 수 있다.
      * 스프링이 EntityManager를 만들어서 주입해준다.
      */
-    @PersistenceContext
-    private EntityManager em;
+//    @PersistenceContext
+    private final EntityManager em;
 
     public Long save(Member member) {
         em.persist(member);
@@ -43,4 +45,7 @@ public class MemberRepository {
                 .getSingleResult().intValue();
     }
 
+    public Member findById(Long memberId) {
+        return em.find(Member.class, memberId);
+    }
 }

@@ -37,4 +37,8 @@ public class MemberService {
         log.info("전체 회원 조회");
         return memberRepository.findAll();
     }
+
+    public Member findOne(Long memberId) {
+        return memberRepository.findById(memberId);
+    }
 }
