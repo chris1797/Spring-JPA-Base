@@ -37,7 +37,10 @@ public class OrderService {
         // 주문 생성
         Order order = Order.createOrder(member, delivery, orderItem);
 
-        // 주문 저장
+        /*
+        주문 저장
+        - Order 엔티티에 cascade = CascadeType.ALL 옵션이 있기 때문에 Order 엔티티만 저장해도 OrderItem, Delivery 엔티티도 함께 저장된다.
+         */
         return orderRepository.save(order);
     }
 }
