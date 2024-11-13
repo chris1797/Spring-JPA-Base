@@ -40,6 +40,8 @@ public class OrderService {
         /*
         주문 저장
         - Order 엔티티에 cascade = CascadeType.ALL 옵션이 있기 때문에 Order 엔티티만 저장해도 OrderItem, Delivery 엔티티도 함께 저장된다.
+        - 현재 비즈니스 로직에는 Delivery, OrderItem이 Order만 참조하고 있기 때문에 CascadeType.ALL 옵션을 사용해도 문제가 없지만,
+        - 실제로는 Delivery, OrderItem이 다른 엔티티를 참조하고 있을 수 있기 때문에 CascadeType.ALL 옵션을 사용하는 것은 위험하다.
          */
         return orderRepository.save(order);
     }
