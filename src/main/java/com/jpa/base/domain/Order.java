@@ -1,7 +1,9 @@
 package com.jpa.base.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -12,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "orders")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 
     @Id @GeneratedValue
@@ -84,7 +87,7 @@ public class Order {
     }
 
     /**
-     * 주문 취소
+     * 주문 취소 (재고수량을 원복)
      */
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMP) {

@@ -2,12 +2,15 @@ package com.jpa.base.domain;
 
 import com.jpa.base.domain.item.Item;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // createOrderItem() 로만 인스턴스화 하도록 생성자 접근 제한
 public class OrderItem {
 
     @Id @GeneratedValue
@@ -48,6 +51,7 @@ public class OrderItem {
     public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
         OrderItem orderItem = new OrderItem();
         orderItem.setItem(item);
+
         // item에 가격이 있지만 주문 가격을 따로 저장하는 이유는 가격이 변동될 수 있기 때문이다.
         orderItem.setOrderPrice(orderPrice);
         orderItem.setCount(count);
@@ -55,4 +59,5 @@ public class OrderItem {
         item.removeStock(count);
         return orderItem;
     }
+
 }
