@@ -7,6 +7,7 @@ import com.jpa.base.exception.NotEnoughStockException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -20,12 +21,19 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class OrderServiceTest {
 
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private ItemService itemService;
+
     @DisplayName("주문 테스트")
     @Test
     void order() {
         // given
-        Member member = createMember();
-        Item item = createItem();
+        Member member = createMember("회원1", new Address("서울", "문성로", "123-123"));
+        Item item = createItem("앨범1", 10000, 10);
         Delivery delivery = createDelivery(member);
 
         int orderCount = 2;
@@ -45,15 +53,18 @@ class OrderServiceTest {
     @DisplayName("재고 수량 초과 테스트")
     @Test
     public void overQuantity() {
-        // given
-        Item item = createItem();
 
-        // when
+        // given
+        Member member = createMember("회원1", new Address("서울", "문성로", "123-123"));
+        Long joinedId = memberService.join(member);
+
+        Item item = createItem("앨범1", 10000, 10);
+        itemService.save(item);
         int orderCount = 11; // 재고 수량 초과
 
-        // then
+        // when
         assertThrows(NotEnoughStockException.class, () -> {
-            OrderItem.createOrderItem(item, item.getPrice(), orderCount);
+            orderService.order(joinedId, item.getId(), orderCount);
         });
     }
 
@@ -65,18 +76,18 @@ class OrderServiceTest {
         return delivery;
     }
 
-    private static Member createMember() {
+    private static Member createMember(String name, Address address) {
         Member member = new Member();
-        member.setName("회원1");
-        member.setAddress(new Address("서울", "문성로", "123-123"));
+        member.setName(name);
+        member.setAddress(address);
         return member;
     }
 
-    private static Item createItem() {
+    private static Item createItem(String name, int price, int stockQuantity) {
         Item item = new Album();
-        item.setName("앨범1");
-        item.setPrice(10000);
-        item.setStockQuantity(10);
+        item.setName(name);
+        item.setPrice(price);
+        item.setStockQuantity(stockQuantity);
         return item;
     }
 
