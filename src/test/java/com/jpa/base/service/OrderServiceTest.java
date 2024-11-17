@@ -4,6 +4,9 @@ import com.jpa.base.domain.*;
 import com.jpa.base.domain.item.Album;
 import com.jpa.base.domain.item.Item;
 import com.jpa.base.exception.NotEnoughStockException;
+import com.jpa.base.repository.MemberRepository;
+import com.jpa.base.repository.OrderRepository;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,12 +24,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class OrderServiceTest {
 
-    @Autowired
-    private OrderService orderService;
-    @Autowired
-    private MemberService memberService;
-    @Autowired
-    private ItemService itemService;
+    @Autowired private EntityManager em;
+    @Autowired private OrderService orderService;
+    @Autowired private MemberService memberService;
+    @Autowired private ItemService itemService;
+    @Autowired private OrderRepository orderRepository;
+
 
     @DisplayName("주문 테스트")
     @Test
@@ -62,10 +65,28 @@ class OrderServiceTest {
         itemService.save(item);
         int orderCount = 11; // 재고 수량 초과
 
+        // when¸
+        assertThrows(NotEnoughStockException.class, () -> orderService.order(joinedId, item.getId(), orderCount));
+    }
+
+    @DisplayName("주문 취소 테스트")
+    @Test
+    void cancelOrder() {
+        // given
+        Member member = createMember("회원1", new Address("서울", "문성로", "123-123"));
+        Item item = createItem("앨범1", 10000, 10);
+
+        int orderCount = 2;
+        Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
+
         // when
-        assertThrows(NotEnoughStockException.class, () -> {
-            orderService.order(joinedId, item.getId(), orderCount);
-        });
+        orderService.cancelOrder(orderId);
+
+        // then
+        Order findOrder = orderRepository.findOne(orderId);
+        assertEquals(OrderStatus.CANCEL, findOrder.getStatus());
+        assertEquals(item.getStockQuantity(), 10);
+
     }
 
 
@@ -76,29 +97,25 @@ class OrderServiceTest {
         return delivery;
     }
 
-    private static Member createMember(String name, Address address) {
+    private Member createMember(String name, Address address) {
         Member member = new Member();
         member.setName(name);
         member.setAddress(address);
+
+        em.persist(member);
         return member;
     }
 
-    private static Item createItem(String name, int price, int stockQuantity) {
+    private Item createItem(String name, int price, int stockQuantity) {
         Item item = new Album();
         item.setName(name);
         item.setPrice(price);
         item.setStockQuantity(stockQuantity);
+
+        em.persist(item);
         return item;
     }
 
 
-//    @Test
-//    void cancelOrder() {
-//        // given
-//
-//
-//
-//
-//    }
 
 }

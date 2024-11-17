@@ -87,7 +87,7 @@ public class Order {
     }
 
     /**
-     * 주문 취소 (재고수량을 원복)
+     * 주문 취소 (재고수량을 원복), orderSatatus를 CANCEL로 변경
      */
     public void cancel() {
         if (delivery.getStatus() == DeliveryStatus.COMP) {
