@@ -1,7 +1,7 @@
 package com.jpa.base.service;
 
 import com.jpa.base.domain.Member;
-import com.jpa.base.repository.MemberRepository;
+import com.jpa.base.legacyRepository.MemberRepositoryLegacy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +24,7 @@ class MemberServiceTest {
     MemberService memberService;
 
     @Autowired
-    MemberRepository memberRepository;
+    MemberRepositoryLegacy memberRepositoryLegacy;
 
     @DisplayName("회원 가입")
     @Test

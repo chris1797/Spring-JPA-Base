@@ -1,6 +1,7 @@
 package com.jpa.base.repository;
 
 import com.jpa.base.domain.Member;
+import com.jpa.base.legacyRepository.MemberRepositoryLegacy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @Rollback(false)
 @Transactional
 @SpringBootTest
-class MemberRepositoryTest {
+class MemberRepositoryLegacyTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    MemberRepositoryLegacy memberRepositoryLegacy;
 
 //    @Rollback(false)
     @Test
@@ -27,10 +28,10 @@ class MemberRepositoryTest {
         member.setName("memberA");
 
         // when
-        Long savedId = memberRepository.save(member);
+        Long savedId = memberRepositoryLegacy.save(member);
 
         // then
-        Member findMember = memberRepository.findOne(savedId);
+        Member findMember = memberRepositoryLegacy.findOne(savedId);
 
         assertEquals(findMember.getId(), member.getId());
         assertEquals(findMember.getName(), member.getName());
@@ -47,10 +48,10 @@ class MemberRepositoryTest {
         member.setName("memberA");
 
         // when
-        Long savedId = memberRepository.save(member);
+        Long savedId = memberRepositoryLegacy.save(member);
 
         // then
-        Member findMember = memberRepository.findOne(savedId);
+        Member findMember = memberRepositoryLegacy.findOne(savedId);
         findMember.setName("memberB");
 
         // 변경 감지(Dirty Checking)으로 인해 update 쿼리가 자동으로 날아간다.
@@ -65,15 +66,15 @@ class MemberRepositoryTest {
         member.setName("memberA");
 
         // when
-        Long savedId = memberRepository.save(member);
+        Long savedId = memberRepositoryLegacy.save(member);
 
         // then
-        Member findMember = memberRepository.findOne(savedId);
+        Member findMember = memberRepositoryLegacy.findOne(savedId);
         System.out.println("Before findMember = " + findMember.getName());
         // 변경 감지(Dirty Checking)으로 인해 update 쿼리가 자동으로 날아간다.
         findMember.setName("memberB");
 
-        Member findMember2 = memberRepository.findOne(savedId);
+        Member findMember2 = memberRepositoryLegacy.findOne(savedId);
         System.out.println("After findMember = " + findMember2.getName());
 
         // 변경 감지(Dirty Checking)으로 인해 update 쿼리가 자동으로 날아간다.

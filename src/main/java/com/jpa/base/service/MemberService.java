@@ -1,6 +1,7 @@
 package com.jpa.base.service;
 
 import com.jpa.base.domain.Member;
+import com.jpa.base.legacyRepository.MemberRepositoryLegacy;
 import com.jpa.base.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,6 @@ public class MemberService {
     }
 
     public Member findOne(Long memberId) {
-        return memberRepository.findById(memberId);
+        return memberRepository.findById(memberId).orElse(null);
     }
 }
