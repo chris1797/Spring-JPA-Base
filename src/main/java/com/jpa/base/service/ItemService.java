@@ -2,6 +2,7 @@ package com.jpa.base.service;
 
 import com.jpa.base.domain.item.Book;
 import com.jpa.base.domain.item.Item;
+import com.jpa.base.legacyRepository.ItemRepositoryLegacy;
 import com.jpa.base.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,12 @@ public class ItemService {
     }
 
     @Transactional
-    public void updateItem(Long itemId, Book bookParam) {
+    public Item updateItem(Long itemId, Book bookParam) {
         // itemId로 영속상태의 엔티티를 가져온다. 이제부터 이 친구는 영속성 컨텍스트에서 관리된다.
         // 이 상태에서 값을 변경하면 트랜잭션이 커밋되는 시점에 변경된 값을 DB에 반영한다.
-        Item findItem = itemRepository.findOne(itemId);
+        Item findItem = itemRepository.findById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이템입니다."));
+
         findItem.setName(bookParam.getName());
         findItem.setPrice(bookParam.getPrice());
         findItem.setStockQuantity(bookParam.getStockQuantity());
@@ -46,12 +49,12 @@ public class ItemService {
         book.setPrice(findItem.getPrice());
         book.setStockQuantity(findItem.getStockQuantity());
 
-        itemRepository.save(book);
-
+        return itemRepository.save(book);
     }
 
     public Item findOne(Long id) {
-        return itemRepository.findOne(id);
+        return itemRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이템입니다."));
     }
 
     public List<Item> findItems() {

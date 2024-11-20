@@ -1,4 +1,4 @@
-package com.jpa.base.repository;
+package com.jpa.base.dto;
 
 import com.jpa.base.domain.OrderStatus;
 import lombok.Getter;

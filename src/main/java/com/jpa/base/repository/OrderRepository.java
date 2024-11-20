@@ -1,36 +1,14 @@
 package com.jpa.base.repository;
 
 import com.jpa.base.domain.Order;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import com.jpa.base.dto.OrderSearch;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class OrderRepository {
+public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @PersistenceContext
-    private EntityManager em;
-
-    public Long save(Order order) {
-        em.persist(order);
-        return order.getId();
-    }
-
-    public Order findOne(Long id) {
-        return em.find(Order.class, id);
-    }
-
-    public List<Order> findAll(OrderSearch orderSearch) {
-        return em.createQuery("select o from Order o join o.member m" +
-                " where o.status = :status" +
-                " and m.name like :name", Order.class)
-                .setParameter("status", orderSearch.getOrderStatus())
-                .setParameter("name", orderSearch.getMemberName())
-                .getResultList();
-    }
-
-
-
+    List<Order> findAllByString(OrderSearch orderSearch);
 }

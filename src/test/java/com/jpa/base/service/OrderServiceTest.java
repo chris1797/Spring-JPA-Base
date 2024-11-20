@@ -4,8 +4,7 @@ import com.jpa.base.domain.*;
 import com.jpa.base.domain.item.Album;
 import com.jpa.base.domain.item.Item;
 import com.jpa.base.exception.NotEnoughStockException;
-import com.jpa.base.repository.MemberRepository;
-import com.jpa.base.repository.OrderRepository;
+import com.jpa.base.legacyRepository.OrderRepositoryLegacy;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,7 @@ class OrderServiceTest {
     @Autowired private OrderService orderService;
     @Autowired private MemberService memberService;
     @Autowired private ItemService itemService;
-    @Autowired private OrderRepository orderRepository;
+    @Autowired private OrderRepositoryLegacy orderRepository;
 
 
     @DisplayName("주문 테스트")

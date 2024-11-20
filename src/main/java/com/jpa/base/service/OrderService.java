@@ -8,6 +8,7 @@ import com.jpa.base.domain.item.Item;
 import com.jpa.base.repository.ItemRepository;
 import com.jpa.base.repository.MemberRepository;
 import com.jpa.base.repository.OrderRepository;
+import com.jpa.base.dto.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +26,10 @@ public class OrderService {
 
 
     @Transactional
-    public Long order(Long memberId, Long itemId, int count) {
+    public Order order(Long memberId, Long itemId, int count) {
 
-        Member member = memberRepository.findById(memberId);
-        Item item = itemRepository.findOne(itemId);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
 
         Delivery delivery = new Delivery();
         delivery.setAddress(member.getAddress());
@@ -50,12 +51,12 @@ public class OrderService {
 
     @Transactional
     public void cancelOrder(Long orderId) {
-        Order order = orderRepository.findOne(orderId);
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
         order.cancel();
     }
 
 
-//    public List<Order> findOrders(OrderSearch orderSearch) {
-//        return orderRepository.findAll(orderSearch);
-//    }
+    public List<Order> findOrders(OrderSearch orderSearch) {
+        return orderRepository.findAllByString(orderSearch);
+    }
 }
