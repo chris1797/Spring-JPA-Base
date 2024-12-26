@@ -31,7 +31,7 @@ public class MemberService {
 
 
     private void validateDuplicateMember(Member member) {
-        if (memberRepository.getCountByName(member.getName()) > 0)
+        if (memberRepository.countByName(member.getName()) > 0)
             throw new IllegalStateException("이미 존재하는 회원입니다.");
     }
 

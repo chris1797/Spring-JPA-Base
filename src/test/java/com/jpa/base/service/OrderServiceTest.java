@@ -76,13 +76,13 @@ class OrderServiceTest {
         Item item = createItem("앨범1", 10000, 10);
 
         int orderCount = 2;
-        Long orderId = orderService.order(member.getId(), item.getId(), orderCount);
+        Order order = orderService.order(member.getId(), item.getId(), orderCount);
 
         // when
-        orderService.cancelOrder(orderId);
+        orderService.cancelOrder(order.getId());
 
         // then
-        Order findOrder = orderRepository.findOne(orderId);
+        Order findOrder = orderRepository.findOne(order.getId());
         assertEquals(OrderStatus.CANCEL, findOrder.getStatus());
         assertEquals(item.getStockQuantity(), 10);
 
