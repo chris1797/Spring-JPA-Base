@@ -1,16 +1,13 @@
 package com.jpa.base.service;
 
 import com.jpa.base.domain.Member;
-import com.jpa.base.legacyRepository.MemberRepositoryLegacy;
 import com.jpa.base.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -36,12 +33,12 @@ public class MemberService {
     }
 
     // 전체 회원 조회
-    public List<Member> findMembers() {
+    public List<Member> fetchAllMembers() {
         log.info("전체 회원 조회");
         return memberRepository.findAll();
     }
 
-    public Member findOne(Long memberId) {
+    public Member fetchMember(Long memberId) {
         return memberRepository.findById(memberId).orElse(null);
     }
 }

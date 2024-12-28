@@ -1,10 +1,14 @@
 package com.jpa.base.domain;
 
+import com.jpa.base.constants.DeliveryStatus;
+import com.jpa.base.constants.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,6 +19,7 @@ import java.util.List;
 @Setter
 @Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 public class Order {
 
     @Id @GeneratedValue
@@ -24,6 +29,10 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createAt;
 
     /**
      * 어지간하면 해당 컬렉션은 인스턴스화 이후 변경하지 않는 것이 좋다.

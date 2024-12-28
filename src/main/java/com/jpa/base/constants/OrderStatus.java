@@ -1,4 +1,4 @@
-package com.jpa.base.domain;
+package com.jpa.base.constants;
 
 public enum OrderStatus {
 

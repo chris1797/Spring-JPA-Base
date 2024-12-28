@@ -1,6 +1,6 @@
 package com.jpa.base.dto;
 
-import com.jpa.base.domain.OrderStatus;
+import com.jpa.base.constants.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
 

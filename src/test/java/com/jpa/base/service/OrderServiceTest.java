@@ -1,5 +1,6 @@
 package com.jpa.base.service;
 
+import com.jpa.base.constants.OrderStatus;
 import com.jpa.base.domain.*;
 import com.jpa.base.domain.item.Album;
 import com.jpa.base.domain.item.Item;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,11 +32,35 @@ class OrderServiceTest {
     @Autowired private OrderRepositoryLegacy orderRepository;
 
 
+    @DisplayName("테스트용 주문 데이터 생성")
+    @Test
+    @Rollback(false)
+    void createOrder() {
+        // given
+//        Member member = createMember("회원1", new Address("서울시 관악구", "문성로 123-123"));
+
+        Member member = memberService.fetchMember(2L);
+
+        Item item = createItem("앨범1", 10000, 10);
+
+        int orderCount = 2;
+
+        // when
+        OrderItem orderItem = OrderItem.createOrderItem(item, item.getPrice(), orderCount);
+
+        for (int i = 1; i <= 10; i++) {
+            Delivery delivery = createDelivery(member);
+            Order order = Order.createOrder(member, delivery, orderItem);
+            orderRepository.save(order);
+        }
+
+    }
+
     @DisplayName("주문 테스트")
     @Test
     void order() {
         // given
-        Member member = createMember("회원1", new Address("서울", "문성로", "123-123"));
+        Member member = createMember("회원1", new Address("서울시 관약구", "문성로 123-123"));
         Item item = createItem("앨범1", 10000, 10);
         Delivery delivery = createDelivery(member);
 
@@ -57,7 +83,7 @@ class OrderServiceTest {
     public void overQuantity() {
 
         // given
-        Member member = createMember("회원1", new Address("서울", "문성로", "123-123"));
+        Member member = createMember("회원1", new Address("서울시 관악구", "문성로 123-123"));
         Long joinedId = memberService.join(member);
 
         Item item = createItem("앨범1", 10000, 10);
@@ -72,7 +98,7 @@ class OrderServiceTest {
     @Test
     void cancelOrder() {
         // given
-        Member member = createMember("회원1", new Address("서울", "문성로", "123-123"));
+        Member member = createMember("회원1", new Address("서울시 관악구", "문성로 123-123"));
         Item item = createItem("앨범1", 10000, 10);
 
         int orderCount = 2;

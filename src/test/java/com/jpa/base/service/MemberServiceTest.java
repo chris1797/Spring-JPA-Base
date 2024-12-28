@@ -1,7 +1,6 @@
 package com.jpa.base.service;
 
 import com.jpa.base.domain.Member;
-import com.jpa.base.legacyRepository.MemberRepositoryLegacy;
 import com.jpa.base.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,12 +12,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-//@Transactional
+@Transactional
 @ActiveProfiles("test")
 class MemberServiceTest {
 
@@ -31,12 +28,12 @@ class MemberServiceTest {
     @DisplayName("회원 가입")
     @Test
     @Rollback(false)
-    void join() throws Exception {
+    void join() {
         // given
 
-        for (int i = 1; i < 101; i++){
+        for (int i = 1; i < 10; i++){
             Member member = new Member();
-            member.setName("chris" + i);
+            member.setName("chris_" + i);
             memberService.join(member);
         }
 
