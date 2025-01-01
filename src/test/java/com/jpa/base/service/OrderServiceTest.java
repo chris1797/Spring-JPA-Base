@@ -17,6 +17,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -111,6 +113,18 @@ class OrderServiceTest {
         Order findOrder = orderRepository.findOne(order.getId());
         assertEquals(OrderStatus.CANCEL, findOrder.getStatus());
         assertEquals(item.getStockQuantity(), 10);
+
+    }
+
+    @DisplayName("회원 주문목록 테스트")
+    @Test
+    void memberOrdersTest() {
+        // given
+        List<Order> orders = orderService.findOrders(2L, null);
+
+        for (Order order : orders) {
+            System.out.println("order = " + order.toString());
+        }
 
     }
 
