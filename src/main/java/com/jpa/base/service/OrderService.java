@@ -55,7 +55,7 @@ public class OrderService {
         order.cancel();
     }
 
-    public List<Order> findOrders(Long memberId, OrderSearch orderSearch) {
+    public List<Order> findOrders(Long memberId) {
         return orderRepository.findByMember_id(memberId);
     }
 

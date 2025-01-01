@@ -120,10 +120,10 @@ class OrderServiceTest {
     @Test
     void memberOrdersTest() {
         // given
-        List<Order> orders = orderService.findOrders(2L, null);
+        List<Order> orders = orderService.findOrders(2L);
 
         for (Order order : orders) {
-            System.out.println("order = " + order.toString());
+            System.out.println("order = " + order.getId() + " / " + order.getOrderDate());
         }
 
     }
