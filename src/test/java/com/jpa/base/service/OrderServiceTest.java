@@ -86,14 +86,14 @@ class OrderServiceTest {
 
         // given
         Member member = createMember("회원1", new Address("서울시 관악구", "문성로 123-123"));
-        Long joinedId = memberService.join(member);
+        Member joinedMember = memberService.join(member);
 
         Item item = createItem("앨범1", 10000, 10);
         itemService.save(item);
         int orderCount = 11; // 재고 수량 초과
 
         // when¸
-        assertThrows(NotEnoughStockException.class, () -> orderService.order(joinedId, item.getId(), orderCount));
+        assertThrows(NotEnoughStockException.class, () -> orderService.order(joinedMember.getId(), item.getId(), orderCount));
     }
 
     @DisplayName("주문 취소 테스트")

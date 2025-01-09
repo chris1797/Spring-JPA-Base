@@ -12,6 +12,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -37,18 +39,18 @@ class MemberServiceTest {
             memberService.join(member);
         }
 
-//        Member member = new Member();
-//        member.setName("chris");
+        Member member = new Member();
+        member.setName("chris");
 
         /*
          * 실제로는 insert 쿼리가 실행되지 않는다. @Transactional 어노테이션이 붙어있기 때문에 트랜잭션을 커밋하지 않고 롤백하기 때문이다.
          * 따라서, 실제로 insert 쿼리가 실행되는지 확인하려면 @Rollback(false)를 붙이거나 em.flush()를 호출해야 한다.
          */
         // when
-//        Long saveId = memberService.join(member);
+        Long saveId = memberService.join(member).getId();
 
         // then
-//        assertEquals(member, memberService.findOne(saveId));
+        assertEquals(member, memberService.fetchMember(saveId));
     }
 
     @DisplayName("회원 중복 검사")

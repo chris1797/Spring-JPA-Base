@@ -19,11 +19,11 @@ public class MemberService {
 
     // 회원 가입
     @Transactional
-    public Long join(Member member) {
+    public Member join(Member member) {
         log.info("회원 가입 - name: {}", member.getName());
         validateDuplicateMember(member); // 중복 회원 검증
         memberRepository.save(member);
-        return member.getId();
+        return member;
     }
 
 
