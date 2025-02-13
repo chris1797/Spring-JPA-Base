@@ -5,7 +5,8 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class Order {
+@Table(name = "orders2")
+public class Orders2 {
 
     @Id
     @GeneratedValue
@@ -20,8 +21,8 @@ public class Order {
      */
 
     @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "users_id")
+    private Users users;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
