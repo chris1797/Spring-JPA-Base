@@ -1,7 +1,6 @@
 package com.jpa.base.service;
 
 import com.jpa.base.domain.item.Book;
-import com.jpa.base.domain.item.Item;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,11 +1,11 @@
-package com.jpa.base.manyToMany;
+package com.jpa.base.domain.manyToMany;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 
-@Entity
+//@Entity
 @Getter
-@Table(name = "orders2")
+//@Table(name = "orders2")
 public class Orders2 {
 
     @Id
