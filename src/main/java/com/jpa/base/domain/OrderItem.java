@@ -30,18 +30,7 @@ public class OrderItem {
 
     private int count; // 주문 수량
 
-    /**
-     * 주문 취소 시 재고수량 원복
-     */
-    public void cancel() {
-        getItem().addStock(count);
-    }
 
-    public int getTotalPrice() {
-        return getOrderPrice() * getCount();
-    }
-
-    /* ======================== 생성 메서드 ======================== */
     /**
      * 주문 상품 생성
      * @param item 상품 엔티티: Item
@@ -59,6 +48,17 @@ public class OrderItem {
 
         item.removeStock(count);
         return orderItem;
+    }
+
+    /**
+     * 주문 취소 시 재고수량 원복
+     */
+    public void cancel() {
+        getItem().addStock(count);
+    }
+
+    public int getTotalPrice() {
+        return getOrderPrice() * getCount();
     }
 
 }

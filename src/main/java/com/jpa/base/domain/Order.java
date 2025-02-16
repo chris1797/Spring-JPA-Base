@@ -30,10 +30,6 @@ public class Order {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createAt;
-
     /**
      * 어지간하면 해당 컬렉션은 인스턴스화 이후 변경하지 않는 것이 좋다.
      * 왜냐하면 하이버네이트는 컬렉션을 감싸서 내장 컬렉션을 사용하므로 컬렉션 변경 시 문제가 발생할 수 있다.
@@ -45,10 +41,16 @@ public class Order {
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    private LocalDateTime orderDate; // 주문 시간
-
     @Enumerated(EnumType.STRING)
     private OrderStatus status; // ORDER, CANCEL
+
+    private LocalDateTime orderDate; // 주문 시간
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createAt;
+
+
 
     /* ======================== 연관관계 메서드 ======================== */
 

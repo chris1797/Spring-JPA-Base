@@ -18,7 +18,7 @@ public class Category {
 
     private String name;
 
-    // 다대다 양방향 매핑: 중간 테이블이 필요하다.
+    // 다대다 관계는 중간 테이블이 필요하기 때문에 중간테이블이 자동으로 생성됨
     // 다대다 양방향 매핑은 운영 레벨에서 사용하지 않는 것이 좋다.
     @ManyToMany
     @JoinTable(name = "category_item",
