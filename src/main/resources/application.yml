@@ -1,10 +1,9 @@
 spring:
-  name: spring-boot-jpa
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/do_develop
-    username:
-    password:
+    username: root
+    password: 1234
 
   jpa:
     hibernate:
@@ -14,7 +13,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-#        show_sql: true
+        show_sql: true
         default_schema: local
         jdbc:
           lob:

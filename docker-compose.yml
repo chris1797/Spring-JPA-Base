@@ -3,15 +3,16 @@ version: "3.1"
 
 services:
   postgres-local:
-    image: postgres
+    image: "postgres:latest"
     restart: always
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: JPA-TEST
-
     ports:
-      - 5432:5432
-
+      - "5432:5432"
     volumes:
       - ./data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U root"]
+      timeout: 10s
