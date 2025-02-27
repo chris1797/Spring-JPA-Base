@@ -12,4 +12,11 @@ public class Book extends Item {
 
     private String author;
     private String isbn;
+
+    public String toString() {
+        return "Book {" +
+                "author='" + author + '\'' +
+                ", isbn='" + isbn + '\'' +
+                '}';
+    }
 }
