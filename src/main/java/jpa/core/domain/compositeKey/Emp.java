@@ -1,6 +1,10 @@
 package jpa.core.domain.compositeKey;
 
-import jakarta.persistence.*;
+
+
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
