@@ -13,7 +13,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
 @ExtendWith(SpringExtension.class)
@@ -64,8 +67,6 @@ class MemberServiceTest {
         Member member2 = new Member();
         member2.setName("chris");
 
-        // when
-
         // then
         try {
             memberService.join(member1);
@@ -75,6 +76,33 @@ class MemberServiceTest {
         }
         // 예외가 발생해야 한다.
         throw new IllegalStateException("예외가 발생해야 한다.");
+    }
+
+    @DisplayName("회원 전체 조회")
+    @Test
+    void findMembers() {
+        // given
+
+        // when
+        List<Member> members = memberRepository.findAll();
+
+        // then
+        assertEquals(10, members.size());
+    }
+
+    @DisplayName("이름으로 회원 조회")
+    @Test
+    void findByName() {
+        // given
+        String findName = "chris_";
+
+        List<Member> list = memberRepository.findByName(findName);
+
+        // when
+
+        // then
+        assertNotEquals(0, list.size());
+        assertEquals(findName, list.get(0).getName());
     }
 
 }

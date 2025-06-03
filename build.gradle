@@ -24,6 +24,15 @@ repositories {
 	mavenCentral()
 }
 
+def generated = 'src/main/generated'
+tasks.withType(JavaCompile).configureEach {
+	options.generatedSourceOutputDirectory = file(generated)
+}
+
+sourceSets {
+	main.java.srcDirs += 'src/main/generated'
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

@@ -39,3 +39,6 @@ out/
 
 ### Docker Volume ###
 /data
+
+### dsl ###
+/src/main/generated

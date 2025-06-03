@@ -1,7 +1,6 @@
 package jpa.core.service;
 
 import jpa.core.common.constants.OrderStatus;
-import com.core.domain.*;
 import jpa.core.domain.delivery.entity.Address;
 import jpa.core.domain.delivery.entity.Delivery;
 import jpa.core.domain.item.entity.Album;
