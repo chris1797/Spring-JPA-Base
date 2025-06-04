@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -15,8 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(SpringExtension.class)
@@ -37,7 +38,7 @@ class MemberServiceTest {
     void join() {
         // given
 
-        for (int i = 1; i < 10; i++){
+        for (int i = 1; i < 30; i++){
             Member member = new Member();
             member.setName("chris_" + i);
             memberService.join(member);
@@ -81,14 +82,29 @@ class MemberServiceTest {
     @DisplayName("회원 전체 조회")
     @Test
     void findMembers() {
-        // given
-
-        // when
         List<Member> members = memberRepository.findAll();
 
-        // then
         assertEquals(10, members.size());
     }
+
+    @DisplayName("회원 페이징 조회")
+    @Test
+    void findMembersWithPaging() {
+        // given
+        Pageable pageable = PageRequest.of(0, 10);
+        String keyword = "chris_1";
+
+        // when
+        List<Member> members = memberRepository.findPagingListByName(keyword, pageable).getContent();
+
+        boolean isContainsKeyword = members.stream()
+                .allMatch(member -> member.getName().contains(keyword));
+
+        // then
+        assertEquals(members.size(), pageable.getPageSize());
+        assertTrue(isContainsKeyword);
+    }
+
 
     @DisplayName("이름으로 회원 조회")
     @Test
@@ -102,7 +118,7 @@ class MemberServiceTest {
 
         // then
         assertNotEquals(0, list.size());
-        assertEquals(findName, list.get(0).getName());
+        assertEquals(findName, list.getFirst().getName());
     }
 
 }
