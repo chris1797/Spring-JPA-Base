@@ -1,6 +1,8 @@
 package jpa.core.service;
 
+import jpa.core.api.member.request.MemberJoinRequest;
 import jpa.core.common.constants.OrderStatus;
+import jpa.core.common.converter.MemberConverter;
 import jpa.core.domain.delivery.entity.Address;
 import jpa.core.domain.delivery.entity.Delivery;
 import jpa.core.domain.item.entity.Album;
@@ -92,8 +94,8 @@ class OrderServiceTest {
     public void overQuantity() {
 
         // given
-        Member member = createMember("회원1", new Address("서울시 관악구", "문성로 123-123"));
-        Member joinedMember = memberService.join(member);
+        MemberJoinRequest request = new MemberJoinRequest("회원1", null, "서울시 관악구", "문성로 123-123");
+        Member joinedMember = memberService.join(request);
 
         Item item = createItem("앨범1", 10000, 10);
         itemService.save(item);

@@ -15,4 +15,8 @@ public class Address {
     // JPA 스펙상 엔티티나 임베디드 타입은 기본 생성자를 public 또는 protected로 설정해야 한다.
     protected Address() {
     }
+
+    public static Address of(String address, String addressDetail) {
+        return new Address(address, addressDetail);
+    }
 }

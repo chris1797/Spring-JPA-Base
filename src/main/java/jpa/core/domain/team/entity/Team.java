@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jpa.core.domain.member.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 public class Team {

@@ -1,5 +1,6 @@
 package jpa.core.service;
 
+import jpa.core.api.member.request.MemberJoinRequest;
 import jpa.core.domain.member.entity.Member;
 import jpa.core.domain.team.entity.Team;
 import jpa.core.domain.member.service.MemberService;
@@ -22,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@Transactional
 @ActiveProfiles("test")
 public class TeamMemberTest {
 
@@ -34,22 +34,36 @@ public class TeamMemberTest {
     @Autowired
     private MemberRepository memberRepository;
 
+    @DisplayName("팀 생성 테스트")
+    @Test
+    @Rollback(false)
+    void createTeam() {
+        // given
+        for (int i = 0; i < 20; i++) {
+            Team team = new Team("Team-" + i);
+            teamRepository.save(team);
+        }
+
+        // when
+
+        // then
+    }
+
     @DisplayName("팀과 회원 저장 및 조회테스트")
     @Test
     void test() {
         // given
-        Member member = new Member();
-        member.setName("chris");
-        Member joinedMember = memberService.join(member);
+        MemberJoinRequest request = new MemberJoinRequest("chris", null, "서울시", "관악구");
+        Member joinedMember = memberService.join(request);
 
         // when
         Team team = new Team("D-PLUS-KIA");
-        member.setTeam(team);
+        joinedMember.setTeam(team);
         Team savedTeam = teamRepository.save(team);
 
         // then
         joinedMember.setTeam(savedTeam);
-        System.out.println("joinedMember = " + joinedMember.toString());
+        System.out.println("joinedMember = " + joinedMember);
     }
 
     @DisplayName("팀 가입 후 회원의 팀 조회 테스트")
@@ -78,5 +92,17 @@ public class TeamMemberTest {
         List<Member> members = team.getMembers();
 
         assertThat(!members.isEmpty()).isTrue();
+    }
+
+    @DisplayName("N+1 문제 해결을 위한 팀 멤버 조회")
+    @Test
+    @Transactional
+    void test4() {
+        // given
+        List<Member> members = memberRepository.findAll();
+
+        for (Member member : members) {
+            System.out.println("Team No :: " + member.getTeam());
+        }
     }
 }

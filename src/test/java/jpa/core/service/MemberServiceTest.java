@@ -1,8 +1,12 @@
 package jpa.core.service;
 
+import jpa.core.api.member.request.MemberJoinRequest;
 import jpa.core.domain.member.entity.Member;
 import jpa.core.domain.member.service.MemberService;
 import jpa.core.domain.member.repository.MemberRepository;
+import jpa.core.domain.team.entity.Team;
+import jpa.core.domain.team.repository.TeamRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,46 +36,72 @@ class MemberServiceTest {
     @Autowired
     MemberRepository memberRepository;
 
-    @DisplayName("회원 가입")
+    @Autowired
+    TeamRepository teamRepository;
+
+    static Team team;
+
+    @BeforeEach
+    void setUp() {
+        // 테스트용 팀 생성
+        team = new Team();
+        team.setName("Test Team");
+
+        teamRepository.save(team);
+        // 팀을 데이터베이스에 저장
+//        memberService.join(new MemberJoinRequest(team.getName(), team.getDescription()));
+    }
+
+    @DisplayName("회원 가입 테스트")
     @Test
     @Rollback(false)
     void join() {
         // given
-
-        for (int i = 1; i < 30; i++){
-            Member member = new Member();
-            member.setName("chris_" + i);
-            memberService.join(member);
+        for (int i = 1; i < 30; i++) {
+            MemberJoinRequest request = new MemberJoinRequest(
+                    "chris_" + i,
+                    team.getId(),
+                    "서울시",
+                    "강남구"
+            );
+//            member.setName("chris_" + i);
+            memberService.join(request);
         }
-
-        Member member = new Member();
-        member.setName("chris");
 
         /*
          * 실제로는 insert 쿼리가 실행되지 않는다. @Transactional 어노테이션이 붙어있기 때문에 트랜잭션을 커밋하지 않고 롤백하기 때문이다.
          * 따라서, 실제로 insert 쿼리가 실행되는지 확인하려면 @Rollback(false)를 붙이거나 em.flush()를 호출해야 한다.
          */
         // when
-        Long saveId = memberService.join(member).getId();
+
+        List<Member> memberList = memberService.fetchAllMembers();
 
         // then
-        assertEquals(member, memberService.fetchMember(saveId));
+        assertEquals(30, memberList.size());
     }
 
-    @DisplayName("회원 중복 검사")
+    @DisplayName("회원가입 시 이름 중복 여부 검사")
     @Test
     void validateDuplicateMember() throws IllegalStateException {
         // given
-        Member member1 = new Member();
-        member1.setName("chris");
+        MemberJoinRequest request1 = new MemberJoinRequest(
+                "chris_duplicate",
+                team.getId(),
+                "서울시",
+                "강남구"
+        );
 
-        Member member2 = new Member();
-        member2.setName("chris");
+        MemberJoinRequest request2 = new MemberJoinRequest(
+                "chris_duplicate",
+                team.getId(),
+                "서울시",
+                "강남구"
+        );
 
         // then
         try {
-            memberService.join(member1);
-            memberService.join(member2);
+            memberService.join(request1);
+            memberService.join(request2);
         } catch (Exception e) {
             return;
         }
