@@ -2,14 +2,11 @@ package jpa.core.domain.category.entity;
 
 import jpa.core.domain.item.entity.Item;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
 public class Category {
 
     @Id @GeneratedValue
@@ -33,11 +30,18 @@ public class Category {
     @OneToMany(mappedBy = "parent") // 셀프 양방향 매핑
     private List<Category> child = new ArrayList<>();
 
-    /* ======================== 연관관계 메서드 ======================== */
 
+    /*
+     * 부모 입장에서 하위 카테고리 추가
+     * + 자식 카테고리 입장에서 부모 설정
+     */
     public void addChildCategory(Category child) {
         this.child.add(child);
         child.setParent(this);
+    }
+
+    private void setParent(Category parent) {
+        this.parent = parent;
     }
 
 }

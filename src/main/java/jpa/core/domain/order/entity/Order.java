@@ -77,6 +77,7 @@ public class Order {
      * @param delivery 배송 정보: Delivery
      */
     public void setDelivery(Delivery delivery) {
+        //
         this.delivery = delivery;
         delivery.setOrder(this);
     }

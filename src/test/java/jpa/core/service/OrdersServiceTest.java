@@ -1,11 +1,11 @@
 package jpa.core.service;
 
 import jpa.core.api.member.request.MemberJoinRequest;
+import jpa.core.common.constants.ItemDtype;
 import jpa.core.common.constants.OrderStatus;
-import jpa.core.common.converter.MemberConverter;
 import jpa.core.domain.delivery.entity.Address;
 import jpa.core.domain.delivery.entity.Delivery;
-import jpa.core.domain.item.entity.Album;
+import jpa.core.domain.item.dto.request.BookItemSaveRequest;
 import jpa.core.domain.item.entity.Item;
 import jpa.core.common.exception.NotEnoughStockException;
 import jpa.core.domain.item.service.ItemService;
@@ -52,7 +52,7 @@ class OrderServiceTest {
 
         Member member = memberService.fetchMember(2L);
 
-        Item item = createItem("앨범1", 10000, 10);
+        Item item = createItem("앨범1", 10000, 10, ItemDtype.ALBUM);
 
         int orderCount = 2;
 
@@ -72,7 +72,7 @@ class OrderServiceTest {
     void order() {
         // given
         Member member = createMember("회원1", new Address("서울시 관약구", "문성로 123-123"));
-        Item item = createItem("앨범1", 10000, 10);
+        Item item = createItem("앨범1", 10000, 10, ItemDtype.ALBUM);
         Delivery delivery = createDelivery(member);
 
         int orderCount = 2;
@@ -97,7 +97,7 @@ class OrderServiceTest {
         MemberJoinRequest request = new MemberJoinRequest("회원1", null, "서울시 관악구", "문성로 123-123");
         Member joinedMember = memberService.join(request);
 
-        Item item = createItem("앨범1", 10000, 10);
+        Item item = createItem("앨범1", 10000, 10, ItemDtype.ALBUM);
         itemService.save(item);
         int orderCount = 11; // 재고 수량 초과
 
@@ -110,7 +110,7 @@ class OrderServiceTest {
     void cancelOrder() {
         // given
         Member member = createMember("회원1", new Address("서울시 관악구", "문성로 123-123"));
-        Item item = createItem("앨범1", 10000, 10);
+        Item item = createItem("앨범1", 10000, 10, ItemDtype.ALBUM);
 
         int orderCount = 2;
         Order order = orderService.order(member.getId(), item.getId(), orderCount);
@@ -154,11 +154,9 @@ class OrderServiceTest {
         return member;
     }
 
-    private Item createItem(String name, int price, int stockQuantity) {
-        Item item = new Album();
-        item.setName(name);
-        item.setPrice(price);
-        item.setStockQuantity(stockQuantity);
+
+    private Item createItem(String name, int price, int stockQuantity, ItemDtype dtype) {
+        Item item = Item.of(name, price, stockQuantity, dtype);
 
         em.persist(item);
         return item;
